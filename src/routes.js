@@ -1,9 +1,15 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-const routes = new Router()
+import UserController from './app/controllers/UserController';
+import SessionController from './app/controllers/SessionController';
 
-routes.get('/', (req, res) => {
-    return res.json({ message : 'Hello batata'})
-})
+import authMiddleware from './app/middlewares/auth';
 
-export default routes
+const routes = new Router();
+
+routes.post('/users', UserController.store);
+routes.post('/sessions', SessionController.store);
+
+routes.put('/users', authMiddleware, UserController.update);
+
+export default routes;
